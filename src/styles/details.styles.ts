@@ -19,6 +19,7 @@ export const detailsStyles = StyleSheet.create({
 
   backButtonText: {
     ...typography.body,
+    fontSize: 20,
     color: colors.primary
   },
 
@@ -51,5 +52,29 @@ export const detailsStyles = StyleSheet.create({
     ...typography.body,
     color: colors.textSecundary,
     marginTop: spacing.md
+  },
+  erroContainer: {
+    padding: spacing.md,
+    textAlign: "center"
+  },
+  erroText: {
+    color: colors.error,
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: spacing.md,
+    fontWeight: "600"
+  },
+  retryButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+    padding: spacing.md,
+    paddingHorizontal: spacing.lg,
+    marginTop: spacing.md
+  },
+  retryButtonText: {
+    color: colors.cardbackground,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: "center"
   }
 })

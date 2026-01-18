@@ -20,6 +20,12 @@ export const colors = {
   // Bordas
   border: "#E0E0E0",
   shadow: "#000000",
+
+  // Temperatura
+  tempCold: '#1E90FF',        // até 10°
+  tempMild: '#4DA3A3',        // 11 a 25°
+  tempWarm: '#FF8C00',        // 26 a 35°
+  tempHot: '#FF3B30',         // acima de 35°
 };
 
 export const spacing = {
