@@ -6,6 +6,7 @@ export const colors = {
   // Background
   background: "#F5F5F5",
   cardbackground: "#FFFFFF",
+  vidro: "#ffffff3b",
 
   // Texto
   text: "#333333",

@@ -21,7 +21,7 @@ export default function WeatherCard({ weather }: WeatherProps) {
       />}
 
       <Text style={weatherCardStyles.temperature}>
-        <Temperature value={weather.main.temp}/>
+        <Temperature value={weather.main.temp} />
       </Text>
 
       {weather.weather[0] && <Text style={weatherCardStyles.description}>
@@ -45,6 +45,7 @@ export default function WeatherCard({ weather }: WeatherProps) {
         </View>
       </View>
     </View>
+
   )
 
 }

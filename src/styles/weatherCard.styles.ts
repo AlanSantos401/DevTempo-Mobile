@@ -4,8 +4,8 @@ import {colors, spacing, typography} from './colors'
 
 export  const weatherCardStyles = StyleSheet.create({
  card: {
-  backgroundColor: colors.cardbackground,
-  borderRadius: 16,
+  backgroundColor: colors.vidro,
+  borderRadius: 17,
   padding: spacing.lg,
   marginHorizontal: spacing.md,
   marginVertical: spacing.sm,
@@ -19,21 +19,21 @@ export  const weatherCardStyles = StyleSheet.create({
  },
 
  weatherIcon: {
-  width: 100,
-  height: 100,
-  marginBottom: spacing.sm
+  width: 70,
+  height: 70,
+  marginBottom: spacing.xs
  },
 
  temperature: {
-  fontSize: 64,
+  fontSize: 35,
   fontWeight: "bold",
   color: colors.primary,
-  marginVertical: spacing.md,
+  marginVertical: spacing.xs,
  },
 
  description: {
   ...typography.subtitle,
-  color: colors.textSecundary,
+  color: colors.text,
   textTransform: 'capitalize',
   marginBottom: spacing.md
  },
@@ -50,7 +50,7 @@ export  const weatherCardStyles = StyleSheet.create({
 
  detailsLabel: {
   ...typography.caption,
-  color: colors.textLight,
+  color: colors.shadow,
   marginBottom: spacing.xs
  },
 

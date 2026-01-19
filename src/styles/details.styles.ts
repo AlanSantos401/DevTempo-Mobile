@@ -12,15 +12,19 @@ export const detailsStyles = StyleSheet.create({
     flex: 1,
   },
 
-  backButton: {
-    padding: spacing.md,
-    marginTop: spacing.md
+  background: {
+    flex: 1
   },
 
-  backButtonText: {
-    ...typography.body,
-    fontSize: 20,
-    color: colors.primary
+  backButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: colors.primary,
+    marginHorizontal: spacing.md,
+    marginTop: spacing.md,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   hearder: {
@@ -53,10 +57,12 @@ export const detailsStyles = StyleSheet.create({
     color: colors.textSecundary,
     marginTop: spacing.md
   },
+
   erroContainer: {
     padding: spacing.md,
     textAlign: "center"
   },
+
   erroText: {
     color: colors.error,
     fontSize: 20,
@@ -64,6 +70,7 @@ export const detailsStyles = StyleSheet.create({
     marginBottom: spacing.md,
     fontWeight: "600"
   },
+
   retryButton: {
     backgroundColor: colors.primary,
     borderRadius: 12,
@@ -71,10 +78,11 @@ export const detailsStyles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     marginTop: spacing.md
   },
+
   retryButtonText: {
     color: colors.cardbackground,
     fontSize: 16,
     fontWeight: '600',
     textAlign: "center"
-  }
+  },
 })
