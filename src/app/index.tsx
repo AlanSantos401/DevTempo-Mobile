@@ -1,8 +1,9 @@
 import SearchBar from "@/components/SearchBar";
 import { useLocation } from "@/hooks/useLocation";
+import { getCurrentWeatherCoods } from "@/services/weatherService";
 import { homeStyles } from "@/styles/home.styles";
 import { useRouter } from "expo-router";
-import { ActivityIndicator, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
@@ -17,7 +18,23 @@ export default function App() {
   }
 
   const handleLocation = async () => {
-    console.log(await getCurrentLocation())
+    const locationResult = await getCurrentLocation()
+
+    if (!locationResult.success) {
+      Alert.alert('Erro', locationResult.error)
+    } else {
+      const { latitude, longitude } = locationResult.coodinates
+      const weatherResult = await getCurrentWeatherCoods(latitude, longitude)
+
+      if (!weatherResult.success) {
+        Alert.alert('Erro', weatherResult.error)
+      } else {
+        router.push({
+          pathname: "/details",
+          params: { cityName: weatherResult.data.name }
+        })
+      }
+    }
   }
 
   return (
