@@ -1,6 +1,7 @@
 import DaulyForecast from "@/components/DailyForecast";
 import HourlyForecast from "@/components/HourlyForecast";
 import WeatherCard from "@/components/WeatherCard";
+import { getWeatherBackground } from "@/hooks/getWeatherBackground";
 import { getCurrentWeather } from "@/services/weatherService";
 import { detailsStyles } from "@/styles/details.styles";
 import { WeatherData } from "@/types/weather";
@@ -41,57 +42,56 @@ export default function Details() {
     setLoading(false)
   }
 
-
   return (
 
 
     <SafeAreaView style={detailsStyles.safeAre}>
       <StatusBar barStyle="dark-content" />
       <ScrollView style={detailsStyles.container}>
-        <ImageBackground
-          source={require('../../assets/images/nublado.jpg')}
-          style={detailsStyles.background}
-          resizeMode="cover"
-        >
-          <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
-            <ArrowLeft size={21} color="#F5F5F5" />
+        {weatherData && (
+          <ImageBackground
+            source={getWeatherBackground(weatherData.weather[0].main)}
+            style={detailsStyles.background}
+            resizeMode="cover"
+          >
+            <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
+              <ArrowLeft size={21} color="#F5F5F5" />
+            </TouchableOpacity>
 
-          </TouchableOpacity>
-
-          <View style={detailsStyles.hearder}>
-            <Text style={detailsStyles.title}>Clima Atual</Text>
-          </View>
-
-          {loading && (
-            <View style={detailsStyles.loadingContainer}>
-              <ActivityIndicator size="large" color="#4A90E2" />
-              <Text style={detailsStyles.loadingText}>Carregando...</Text>
+            <View style={detailsStyles.hearder}>
+              <Text style={detailsStyles.title}>Clima Atual</Text>
             </View>
-          )}
 
-          {!loading && error && (
-            <View style={detailsStyles.erroContainer}>
-              <Text style={detailsStyles.erroText}>{error}</Text>
-              <TouchableOpacity onPress={getWeatherData} style={detailsStyles.retryButton}>
-                <Text style={detailsStyles.retryButtonText}>Tente Novamente</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+            {loading && (
+              <View style={detailsStyles.loadingContainer}>
+                <ActivityIndicator size="large" color="#4A90E2" />
+                <Text style={detailsStyles.loadingText}>Carregando...</Text>
+              </View>
+            )}
 
-          {!loading && !error && weatherData && (
-            <WeatherCard weather={weatherData} />
-          )}
+            {!loading && error && (
+              <View style={detailsStyles.erroContainer}>
+                <Text style={detailsStyles.erroText}>{error}</Text>
+                <TouchableOpacity onPress={getWeatherData} style={detailsStyles.retryButton}>
+                  <Text style={detailsStyles.retryButtonText}>Tente Novamente</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
-          {!loading && !error && weatherData && (
-            <HourlyForecast />
-          )}
+            {!loading && !error && weatherData && (
+              <WeatherCard weather={weatherData} />
+            )}
 
-          {!loading && !error && weatherData && (
-            <DaulyForecast />
-          )}
+            {!loading && !error && weatherData && (
+              <HourlyForecast />
+            )}
 
+            {!loading && !error && weatherData && (
+              <DaulyForecast />
+            )}
+          </ImageBackground>
+        )}
 
-        </ImageBackground>
       </ScrollView>
 
     </SafeAreaView>
