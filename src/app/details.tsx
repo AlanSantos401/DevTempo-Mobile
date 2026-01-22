@@ -1,7 +1,6 @@
 import DaulyForecast from "@/components/DailyForecast";
 import HourlyForecast from "@/components/HourlyForecast";
 import WeatherCard from "@/components/WeatherCard";
-import { getDailyForecast, getHourlyForecast } from "@/hooks/forecast";
 import { getWeatherBackground } from "@/hooks/getWeatherBackground";
 import { getCurrentWeather, getForecast } from "@/services/weatherService";
 import { colors } from "@/styles/colors";
@@ -31,92 +30,92 @@ export default function Details() {
     if (cityName) getWeatherData()
   }, [cityName])
 
-  
 
- const getWeatherData = async () => {
-  setLoading(true)
-  setError(null)
 
-  // 🌤️ Clima atual
-  const result = await getCurrentWeather(cityName as string)
+  const getWeatherData = async () => {
+    setLoading(true)
+    setError(null)
 
-  if (!result.success) {
-    setError(result.error)
-    setLoading(false)
-    return
-  }
+    // 🌤️ Clima atual
+    const result = await getCurrentWeather(cityName as string)
 
-  setWeatherData(result.data)
-
-  const { lat, lon } = result.data.coord
-
-  // 📅 Forecast
-  const forecastResult = await getForecast(lat, lon)
-
-  // ✅ GUARDA DE TIPO (OBRIGATÓRIO)
-  if (!forecastResult.success) {
-    console.log("Erro forecast:", forecastResult.error)
-    setLoading(false)
-    return
-  }
-
-  // =================================
-  // ⏰ PRÓXIMAS 6 HORAS
-  // =================================
-  const next6Hours = forecastResult.data.list.slice(0, 6)
-  setHourlyForecast(next6Hours)
-
-  // =================================
-  // 📆 PRÓXIMOS 5 DIAS
-  // =================================
-  const dailyMap: Record<string, any[]> = {}
-
-  forecastResult.data.list.forEach(item => {
-    const date = item.dt_txt.split(" ")[0]
-
-    if (!dailyMap[date]) {
-      dailyMap[date] = []
+    if (!result.success) {
+      setError(result.error)
+      setLoading(false)
+      return
     }
 
-    dailyMap[date].push(item)
-  })
+    setWeatherData(result.data)
 
-  const dailyArray = Object.keys(dailyMap)
-    .slice(1, 6)
-    .map(date => {
-      const dayItems = dailyMap[date]
+    const { lat, lon } = result.data.coord
 
-      const tempsMin = dayItems.map(i => i.main.temp_min)
-      const tempsMax = dayItems.map(i => i.main.temp_max)
+    // 📅 Forecast
+    const forecastResult = await getForecast(lat, lon)
 
-      const min = Math.min(...tempsMin)
-      const max = Math.max(...tempsMax)
+    // ✅ GUARDA DE TIPO (OBRIGATÓRIO)
+    if (!forecastResult.success) {
+      console.log("Erro forecast:", forecastResult.error)
+      setLoading(false)
+      return
+    }
 
-      const noonItem =
-        dayItems.find(i => i.dt_txt.includes("12:00:00")) || dayItems[0]
+    // =================================
+    // ⏰ PRÓXIMAS 6 HORAS
+    // =================================
+    const next6Hours = forecastResult.data.list.slice(0, 6)
+    setHourlyForecast(next6Hours)
 
-      const weekDay = new Date(date).toLocaleDateString("pt-BR", {
-        weekday: "short",
-      })
+    // =================================
+    // 📆 PRÓXIMOS 5 DIAS
+    // =================================
+    const dailyMap: Record<string, any[]> = {}
 
-      const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-      })
+    forecastResult.data.list.forEach(item => {
+      const date = item.dt_txt.split(" ")[0]
 
-      return {
-        day: weekDay.toUpperCase(),
-        date: formattedDate,
-        icon: noonItem.weather[0].icon,
-        min: Math.round(min),
-        max: Math.round(max),
+      if (!dailyMap[date]) {
+        dailyMap[date] = []
       }
+
+      dailyMap[date].push(item)
     })
 
-  setDailyForecast(dailyArray)
+    const dailyArray = Object.keys(dailyMap)
+      .slice(0, 6)
+      .map(date => {
+        const dayItems = dailyMap[date]
 
-  setLoading(false)
-}
+        const tempsMin = dayItems.map(i => i.main.temp_min)
+        const tempsMax = dayItems.map(i => i.main.temp_max)
+
+        const min = Math.min(...tempsMin)
+        const max = Math.max(...tempsMax)
+
+        const noonItem =
+          dayItems.find(i => i.dt_txt.includes("12:00:00")) || dayItems[0]
+
+        const weekDay = new Date(date).toLocaleDateString("pt-BR", {
+          weekday: "short",
+        })
+
+        const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+        })
+
+        return {
+          day: weekDay.toUpperCase(),
+          date: formattedDate,
+          icon: noonItem.weather[0].icon,
+          min: Math.round(min),
+          max: Math.round(max),
+        }
+      })
+
+    setDailyForecast(dailyArray)
+
+    setLoading(false)
+  }
 
   const isNight =
     weatherData?.weather[0].icon.endsWith("n") ?? false
@@ -127,6 +126,10 @@ export default function Details() {
 
     <SafeAreaView style={detailsStyles.safeAre}>
       <StatusBar barStyle="dark-content" />
+      <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
+        <ArrowLeft size={21} color="#8C8C8C" />
+      </TouchableOpacity>
+
       <ScrollView style={detailsStyles.container}>
         {weatherData && (
           <ImageBackground
@@ -137,10 +140,6 @@ export default function Details() {
             style={detailsStyles.background}
             resizeMode="cover"
           >
-
-            <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
-              <ArrowLeft size={21} color="#333333" />
-            </TouchableOpacity>
 
             <View style={detailsStyles.hearder}>
               <Text style={[detailsStyles.title, { color: isNight ? colors.border : colors.text }]}>Clima Atual</Text>
@@ -167,11 +166,11 @@ export default function Details() {
             )}
 
             {!loading && !error && weatherData && (
-              <HourlyForecast data={hourlyForecast}/>
+              <HourlyForecast data={hourlyForecast} />
             )}
 
             {!loading && !error && weatherData && (
-              <DaulyForecast data={dailyForecast}/>
+              <DaulyForecast data={dailyForecast} />
             )}
           </ImageBackground>
         )}

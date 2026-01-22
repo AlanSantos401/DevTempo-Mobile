@@ -17,6 +17,9 @@ export const detailsStyles = StyleSheet.create({
   },
 
   backButton: {
+    position: "absolute",
+    top: 25,
+    zIndex: 1000,
     width: 40,
     height: 40,
     backgroundColor: colors.vidro,
@@ -30,7 +33,8 @@ export const detailsStyles = StyleSheet.create({
   hearder: {
     paddingHorizontal: spacing.md,
     paddingBottom: spacing.md,
-    color: colors.primaryDark
+    color: colors.primaryDark,
+    marginTop: 50
   },
 
   title: {

@@ -19,9 +19,8 @@ export  const weatherCardStyles = StyleSheet.create({
  },
 
  weatherIcon: {
-  width: 70,
-  height: 70,
-  marginBottom: spacing.xs
+  width: 65,
+  height: 65,
  },
 
  temperature: {
@@ -35,7 +34,6 @@ export  const weatherCardStyles = StyleSheet.create({
   ...typography.subtitle,
   color: colors.text,
   textTransform: 'capitalize',
-  marginBottom: spacing.md
  },
 
  detailsContainer: {
@@ -55,7 +53,7 @@ export  const weatherCardStyles = StyleSheet.create({
  },
 
  detailsValue: {
-  ...typography.body,
+  ...typography.caption,
   color: colors.text
  }
 

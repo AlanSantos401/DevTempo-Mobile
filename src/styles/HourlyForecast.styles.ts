@@ -6,7 +6,7 @@ export const HourlyForescastStyles = StyleSheet.create({
   container: {
     backgroundColor: colors.vidro,
     borderRadius: 17,
-    gap: spacing.md,
+    gap: spacing.xs,
     padding: spacing.md,
     marginHorizontal: spacing.md,
     marginVertical: spacing.sm,
