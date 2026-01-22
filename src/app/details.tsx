@@ -1,8 +1,9 @@
 import DaulyForecast from "@/components/DailyForecast";
 import HourlyForecast from "@/components/HourlyForecast";
 import WeatherCard from "@/components/WeatherCard";
+import { getDailyForecast, getHourlyForecast } from "@/hooks/forecast";
 import { getWeatherBackground } from "@/hooks/getWeatherBackground";
-import { getCurrentWeather } from "@/services/weatherService";
+import { getCurrentWeather, getForecast } from "@/services/weatherService";
 import { colors } from "@/styles/colors";
 import { detailsStyles } from "@/styles/details.styles";
 import { WeatherData } from "@/types/weather";
@@ -18,6 +19,9 @@ export default function Details() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
+  const [hourlyForecast, setHourlyForecast] = useState<any[]>([]);
+  const [dailyForecast, setDailyForecast] = useState<any[]>([]);
+
 
   const router = useRouter()
 
@@ -27,24 +31,50 @@ export default function Details() {
     if (cityName) getWeatherData()
   }, [cityName])
 
+  
+
   const getWeatherData = async () => {
-    setLoading(true)
-    setError(null)
+  setLoading(true)
+  setError(null)
 
-    const result = await getCurrentWeather(cityName as string)
+  const result = await getCurrentWeather(cityName as string)
 
-    if (!result.success) {
-      setError(result.error)
-      setLoading(false)
-      return
-    }
-
-    setWeatherData(result.data)
+  if (!result.success) {
+    setError(result.error)
     setLoading(false)
+    return
   }
 
+  setWeatherData(result.data)
+
+  // ✅ coordenadas do /weather
+  const { lat, lon } = result.data.coord
+
+  // ✅ forecast
+  const forecastResult = await getForecast(lat, lon)
+
+  // 🔒 PROTEÇÃO DE ERRO
+  if (!forecastResult.success) {
+    console.log("Erro forecast:", forecastResult.error)
+    setLoading(false)
+    return
+  }
+
+  // ✅ AGORA É SEGURO
+  const next6Hours = forecastResult.data.list.slice(0, 6)
+
+  console.log("NEXT 6 HOURS:", next6Hours)
+
+  setHourlyForecast(next6Hours)
+
+  setLoading(false)
+}
+
+
+
+
   const isNight =
-  weatherData?.weather[0].icon.endsWith("n") ?? false
+    weatherData?.weather[0].icon.endsWith("n") ?? false
 
 
   return (
@@ -68,7 +98,7 @@ export default function Details() {
             </TouchableOpacity>
 
             <View style={detailsStyles.hearder}>
-              <Text style={[detailsStyles.title, { color:  isNight ? colors.border : colors.text}]}>Clima Atual</Text>
+              <Text style={[detailsStyles.title, { color: isNight ? colors.border : colors.text }]}>Clima Atual</Text>
             </View>
 
             {loading && (
@@ -92,7 +122,7 @@ export default function Details() {
             )}
 
             {!loading && !error && weatherData && (
-              <HourlyForecast />
+              <HourlyForecast data={hourlyForecast}/>
             )}
 
             {!loading && !error && weatherData && (

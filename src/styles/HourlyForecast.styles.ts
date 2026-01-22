@@ -4,7 +4,6 @@ import { colors, spacing } from './colors';
 
 export const HourlyForescastStyles = StyleSheet.create({
   container: {
-    flexDirection: "row",
     backgroundColor: colors.vidro,
     borderRadius: 17,
     gap: spacing.md,
@@ -14,10 +13,23 @@ export const HourlyForescastStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  
-  cardHourly: {
+
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
     alignItems: "center",
-    gap: spacing.sm,
+    color: colors.text
+  },
+
+  cardHourly: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.md - 4,
     justifyContent: "center"
+  },
+  
+  icon: {
+    height: 40,
+    width: 40
   }
 })

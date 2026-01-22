@@ -33,6 +33,10 @@ export interface Wind {
  * Endpoint: /data/2.5/weather
  */
 export interface WeatherData {
+  coord: {
+    lat: number
+    lon: number
+  }
   name: string; // Nome da cidade
   main: Main; // Dados principais (temp, umidade, etc)
   weather: Weather[]; // Array de condições (geralmente 1 item)
@@ -51,3 +55,22 @@ export interface WeatherError {
   cod: string | number;
   message: string;
 }
+
+export interface ForecastItem {
+  dt: number;
+  dt_txt: string;
+  main: Main;
+  weather: Weather[];
+}
+
+export interface ForecastResponse {
+  list: ForecastItem[];
+  city: {
+    name: string;
+    coord: {
+      lat: number;
+      lon: number;
+    };
+  };
+}
+

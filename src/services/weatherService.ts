@@ -1,8 +1,10 @@
-import { WeatherData, WeatherError } from '@/types/weather';
+import { WeatherData, WeatherError, ForecastItem, ForecastResponse } from '@/types/weather';
 import axios from 'axios';
 
 
 export type WeatherResult = { success: true; data: WeatherData } | { success: false; error: string }
+export type ForecastResult = | { success: true; data: ForecastResponse } | { success: false; error: string }
+
 
 
 const API_KEY = process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY
@@ -20,6 +22,49 @@ const api = axios.create({
     "Content-Type": 'application/json'
   }
 })
+
+export async function getForecast(
+  lat: number,
+  lon: number
+): Promise<ForecastResult> {
+  try {
+    const response = await api.get<ForecastResponse>("/forecast", {
+      params: { lat, lon },
+    })
+
+    return {
+      success: true,
+      data: response.data,
+    }
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      if (err.response) {
+        return {
+          success: false,
+          error: getErrorMessage(err.response.status),
+        }
+      }
+
+      if (err.request) {
+        return {
+          success: false,
+          error: "Sem conexão com o servidor",
+        }
+      }
+    }
+
+    return {
+      success: false,
+      error: "Erro ao buscar previsão do tempo",
+    }
+  }
+}
+
+
+
+
+
+
 
 const getErrorMessage = (statusCode: number): string => {
 
