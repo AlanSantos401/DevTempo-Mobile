@@ -31,7 +31,6 @@ export default function Details() {
   }, [cityName])
 
 
-
   const getWeatherData = async () => {
     setLoading(true)
     setError(null)
@@ -122,7 +121,6 @@ export default function Details() {
 
 
   return (
-
 
     <SafeAreaView style={detailsStyles.safeAre}>
       <StatusBar barStyle="dark-content" />
