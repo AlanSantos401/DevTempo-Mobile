@@ -118,10 +118,6 @@ export default function Details() {
   setLoading(false)
 }
 
-
-
-
-
   const isNight =
     weatherData?.weather[0].icon.endsWith("n") ?? false
 
@@ -143,7 +139,7 @@ export default function Details() {
           >
 
             <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
-              <ArrowLeft size={21} color="#F5F5F5" />
+              <ArrowLeft size={21} color="#333333" />
             </TouchableOpacity>
 
             <View style={detailsStyles.hearder}>

@@ -19,7 +19,7 @@ export const detailsStyles = StyleSheet.create({
   backButton: {
     width: 40,
     height: 40,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.vidro,
     marginHorizontal: spacing.md,
     marginTop: spacing.md,
     borderRadius: 25,
