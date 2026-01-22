@@ -29,7 +29,8 @@ export const detailsStyles = StyleSheet.create({
 
   hearder: {
     paddingHorizontal: spacing.md,
-    paddingBottom: spacing.md
+    paddingBottom: spacing.md,
+    color: colors.primaryDark
   },
 
   title: {

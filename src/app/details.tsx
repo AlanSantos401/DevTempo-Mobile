@@ -50,10 +50,14 @@ export default function Details() {
       <ScrollView style={detailsStyles.container}>
         {weatherData && (
           <ImageBackground
-            source={getWeatherBackground(weatherData.weather[0].main)}
+            source={getWeatherBackground(
+              weatherData.weather[0].main,
+              weatherData.weather[0].icon
+            )}
             style={detailsStyles.background}
             resizeMode="cover"
           >
+
             <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
               <ArrowLeft size={21} color="#F5F5F5" />
             </TouchableOpacity>
