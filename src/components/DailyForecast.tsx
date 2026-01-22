@@ -1,59 +1,37 @@
-import { DailyForecastStyle } from "@/styles/DailyForescat.styles";
-import { Text, View } from "react-native";
+import { View, Text, Image } from "react-native"
+import { DailyForecastItem } from "@/types/forecast"
+import { DailyForecastStyle } from "@/styles/DailyForescat.styles"
 
 
-export default function DaulyForecast() {
+interface DailyForecastProps {
+  data: DailyForecastItem[]
+}
+
+export default function DailyForecast({ data }: DailyForecastProps) {
   return (
     <View style={DailyForecastStyle.container}>
-      <View style={DailyForecastStyle.cardDay}>
-        <View style={DailyForecastStyle.Date}>
-          <Text>SEG</Text>
-          <Text>19/01</Text>
+      {data.map((item, index) => (
+        <View key={index} style={DailyForecastStyle.cardDay}>
+          {/* Dia e data */}
+          <View style={DailyForecastStyle.Date}>
+            <Text>{item.day}</Text>
+            <Text>{item.date}</Text>
+          </View>
+
+          {/* Ícone */}
+          <Image
+            source={{
+              uri: `https://openweathermap.org/img/wn/${item.icon}@2x.png`,
+            }}
+            style={{ width: 40, height: 40 }}
+          />
+
+          {/* Temperaturas */}
+          <Text>
+            {item.min}° / {item.max}°
+          </Text>
         </View>
-
-        <Text>🌤️</Text>
-        <Text>23°/35°</Text>
-      </View>
-
-      <View style={DailyForecastStyle.cardDay}>
-        <View style={DailyForecastStyle.Date}>
-          <Text>TER</Text>
-          <Text>19/01</Text>
-        </View>
-
-        <Text>🌤️</Text>
-        <Text>23°/35°</Text>
-      </View>
-
-      <View style={DailyForecastStyle.cardDay}>
-        <View style={DailyForecastStyle.Date}>
-          <Text>QUA</Text>
-          <Text>19/01</Text>
-        </View>
-
-        <Text>🌤️</Text>
-        <Text>23°/35°</Text>
-      </View>
-
-      <View style={DailyForecastStyle.cardDay}>
-        <View style={DailyForecastStyle.Date}>
-          <Text>QUI</Text>
-          <Text>19/01</Text>
-        </View>
-
-        <Text>🌤️</Text>
-        <Text>23°/35°</Text>
-      </View>
-
-      <View style={DailyForecastStyle.cardDay}>
-        <View style={DailyForecastStyle.Date}>
-          <Text>SEX</Text>
-          <Text>19/01</Text>
-        </View>
-
-        <Text>🌤️</Text>
-        <Text>23°/35°</Text>
-      </View>
+      ))}
     </View>
   )
 }

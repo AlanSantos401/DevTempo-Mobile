@@ -33,10 +33,11 @@ export default function Details() {
 
   
 
-  const getWeatherData = async () => {
+ const getWeatherData = async () => {
   setLoading(true)
   setError(null)
 
+  // 🌤️ Clima atual
   const result = await getCurrentWeather(cityName as string)
 
   if (!result.success) {
@@ -47,28 +48,76 @@ export default function Details() {
 
   setWeatherData(result.data)
 
-  // ✅ coordenadas do /weather
   const { lat, lon } = result.data.coord
 
-  // ✅ forecast
+  // 📅 Forecast
   const forecastResult = await getForecast(lat, lon)
 
-  // 🔒 PROTEÇÃO DE ERRO
+  // ✅ GUARDA DE TIPO (OBRIGATÓRIO)
   if (!forecastResult.success) {
     console.log("Erro forecast:", forecastResult.error)
     setLoading(false)
     return
   }
 
-  // ✅ AGORA É SEGURO
+  // =================================
+  // ⏰ PRÓXIMAS 6 HORAS
+  // =================================
   const next6Hours = forecastResult.data.list.slice(0, 6)
-
-  console.log("NEXT 6 HOURS:", next6Hours)
-
   setHourlyForecast(next6Hours)
+
+  // =================================
+  // 📆 PRÓXIMOS 5 DIAS
+  // =================================
+  const dailyMap: Record<string, any[]> = {}
+
+  forecastResult.data.list.forEach(item => {
+    const date = item.dt_txt.split(" ")[0]
+
+    if (!dailyMap[date]) {
+      dailyMap[date] = []
+    }
+
+    dailyMap[date].push(item)
+  })
+
+  const dailyArray = Object.keys(dailyMap)
+    .slice(1, 6)
+    .map(date => {
+      const dayItems = dailyMap[date]
+
+      const tempsMin = dayItems.map(i => i.main.temp_min)
+      const tempsMax = dayItems.map(i => i.main.temp_max)
+
+      const min = Math.min(...tempsMin)
+      const max = Math.max(...tempsMax)
+
+      const noonItem =
+        dayItems.find(i => i.dt_txt.includes("12:00:00")) || dayItems[0]
+
+      const weekDay = new Date(date).toLocaleDateString("pt-BR", {
+        weekday: "short",
+      })
+
+      const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+      })
+
+      return {
+        day: weekDay.toUpperCase(),
+        date: formattedDate,
+        icon: noonItem.weather[0].icon,
+        min: Math.round(min),
+        max: Math.round(max),
+      }
+    })
+
+  setDailyForecast(dailyArray)
 
   setLoading(false)
 }
+
 
 
 
@@ -126,7 +175,7 @@ export default function Details() {
             )}
 
             {!loading && !error && weatherData && (
-              <DaulyForecast />
+              <DaulyForecast data={dailyForecast}/>
             )}
           </ImageBackground>
         )}
