@@ -35,7 +35,6 @@ export const detailsStyles = StyleSheet.create({
 
   title: {
     ...typography.title,
-    color: colors.text,
     textAlign: "center"
   },
 

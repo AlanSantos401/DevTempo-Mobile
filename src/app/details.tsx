@@ -3,6 +3,7 @@ import HourlyForecast from "@/components/HourlyForecast";
 import WeatherCard from "@/components/WeatherCard";
 import { getWeatherBackground } from "@/hooks/getWeatherBackground";
 import { getCurrentWeather } from "@/services/weatherService";
+import { colors } from "@/styles/colors";
 import { detailsStyles } from "@/styles/details.styles";
 import { WeatherData } from "@/types/weather";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -42,6 +43,10 @@ export default function Details() {
     setLoading(false)
   }
 
+  const isNight =
+  weatherData?.weather[0].icon.endsWith("n") ?? false
+
+
   return (
 
 
@@ -63,7 +68,7 @@ export default function Details() {
             </TouchableOpacity>
 
             <View style={detailsStyles.hearder}>
-              <Text style={detailsStyles.title}>Clima Atual</Text>
+              <Text style={[detailsStyles.title, { color:  isNight ? colors.border : colors.text}]}>Clima Atual</Text>
             </View>
 
             {loading && (
