@@ -38,19 +38,16 @@ export default function App() {
 
     const { latitude, longitude } = locationResult.coodinates
 
-    // 🌤️ CLIMA ATUAL
     const weatherResult = await getCurrentWeatherCoods(latitude, longitude)
     if (weatherResult.success) {
       setCurrentWeather(weatherResult.data)
     }
 
-    // ⏰ PRÓXIMAS HORAS
     const forecastResult = await getForecast(latitude, longitude)
     if (forecastResult.success) {
       setHourlyForecast(forecastResult.data.list.slice(0, 6))
     }
   }
-
 
   const handleSearch = (cityName: string) => {
     router.push({
@@ -95,7 +92,6 @@ export default function App() {
             resizeMode="cover"
           >
 
-
             <View style={homeStyles.header}>
               <Text style={homeStyles.title}>Dev Tempo 🌤️</Text>
               <Text style={homeStyles.subtitle}>Busque o clima em qualquer lugar!</Text>
@@ -106,7 +102,6 @@ export default function App() {
             <TouchableOpacity onPress={handleLocation} style={homeStyles.gpsButton}>
               {loading ? <ActivityIndicator size={"large"} /> : <Text style={homeStyles.gpsText}>Usar Minha Localização</Text>}
             </TouchableOpacity>
-
 
             {currentWeather && (
               <View style={homeStyles.card}>
@@ -180,10 +175,8 @@ export default function App() {
                 </View>
               </View>
             )}
-
           </ImageBackground>
         )}
-
       </ScrollView>
     </SafeAreaView>
   )

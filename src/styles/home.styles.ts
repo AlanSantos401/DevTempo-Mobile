@@ -25,7 +25,7 @@ export const homeStyles = StyleSheet.create({
 
   subtitle: {
     ...typography.subtitle,
-    color: colors.textSecundary,
+    color: colors.text,
     textAlign: "center",
     marginTop: spacing.xs
   },
