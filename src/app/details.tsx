@@ -9,7 +9,7 @@ import { WeatherData } from "@/types/weather";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft } from 'lucide-react-native';
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
@@ -21,6 +21,8 @@ export default function Details() {
   const [hourlyForecast, setHourlyForecast] = useState<any[]>([]);
   const [dailyForecast, setDailyForecast] = useState<any[]>([]);
 
+  const colorScheme = useColorScheme()
+  const isDarkMode = colorScheme === "dark"
 
   const router = useRouter()
 
@@ -30,12 +32,10 @@ export default function Details() {
     if (cityName) getWeatherData()
   }, [cityName])
 
-
   const getWeatherData = async () => {
     setLoading(true)
     setError(null)
 
-    // 🌤️ Clima atual
     const result = await getCurrentWeather(cityName as string)
 
     if (!result.success) {
@@ -48,25 +48,17 @@ export default function Details() {
 
     const { lat, lon } = result.data.coord
 
-    // 📅 Forecast
     const forecastResult = await getForecast(lat, lon)
 
-    // ✅ GUARDA DE TIPO (OBRIGATÓRIO)
     if (!forecastResult.success) {
       console.log("Erro forecast:", forecastResult.error)
       setLoading(false)
       return
     }
 
-    // =================================
-    // ⏰ PRÓXIMAS 6 HORAS
-    // =================================
     const next6Hours = forecastResult.data.list.slice(0, 6)
     setHourlyForecast(next6Hours)
 
-    // =================================
-    // 📆 PRÓXIMOS 5 DIAS
-    // =================================
     const dailyMap: Record<string, any[]> = {}
 
     forecastResult.data.list.forEach(item => {
@@ -116,18 +108,12 @@ export default function Details() {
     setLoading(false)
   }
 
-  const isNight =
-    weatherData?.weather[0].icon.endsWith("n") ?? false
-
+  const isNight = weatherData?.weather[0].icon.endsWith("n") ?? false
 
   return (
 
     <SafeAreaView style={detailsStyles.safeAre}>
-      <StatusBar barStyle="dark-content" />
-      <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
-        <ArrowLeft size={21} color="#8C8C8C" />
-      </TouchableOpacity>
-
+      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
       <ScrollView style={detailsStyles.container}>
         {weatherData && (
           <ImageBackground
@@ -138,6 +124,10 @@ export default function Details() {
             style={detailsStyles.background}
             resizeMode="cover"
           >
+
+            <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
+              <ArrowLeft size={21} color="#FFFFFF" />
+            </TouchableOpacity>
 
             <View style={detailsStyles.hearder}>
               <Text style={[detailsStyles.title, { color: isNight ? colors.border : colors.text }]}>Clima Atual</Text>

@@ -8,12 +8,15 @@ import { homeStyles } from "@/styles/home.styles";
 import { HourlyForescastStyles } from "@/styles/HourlyForecast.styles";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Image, ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Image, ImageBackground, ScrollView, StatusBar, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   const { getCurrentLocation, loading } = useLocation()
   const router = useRouter()
+
+  const colorScheme = useColorScheme()
+  const isDarkMode = colorScheme === "dark"
 
   const [currentWeather, setCurrentWeather] = useState<any>(null)
   const [hourlyForecast, setHourlyForecast] = useState<any[]>([])
@@ -78,7 +81,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={homeStyles.safeArea}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
 
       <ScrollView style={homeStyles.container} contentContainerStyle={{ flexGrow: 1 }}>
 

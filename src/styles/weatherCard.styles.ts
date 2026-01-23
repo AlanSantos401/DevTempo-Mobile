@@ -27,7 +27,6 @@ export  const weatherCardStyles = StyleSheet.create({
   fontSize: 35,
   fontWeight: "bold",
   color: colors.primary,
-  marginVertical: spacing.xs,
  },
 
  description: {

@@ -17,12 +17,9 @@ export const detailsStyles = StyleSheet.create({
   },
 
   backButton: {
-    position: "absolute",
-    top: 45,
-    zIndex: 1000,
     width: 40,
     height: 40,
-    backgroundColor: colors.vidro,
+    backgroundColor: colors.primary,
     marginHorizontal: spacing.md,
     marginTop: spacing.md,
     borderRadius: 25,
@@ -34,7 +31,6 @@ export const detailsStyles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingBottom: spacing.md,
     color: colors.primaryDark,
-    marginTop: 50
   },
 
   title: {
