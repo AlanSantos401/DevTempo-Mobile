@@ -18,7 +18,8 @@ export const HourlyForescastStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     alignItems: "center",
-    color: colors.text
+    color: colors.text,
+    marginBottom: spacing.sm
   },
 
   cardHourly: {

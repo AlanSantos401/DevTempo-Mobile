@@ -4,7 +4,7 @@ import { colors, spacing, typography } from "./colors";
 export const homeStyles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.background
+     backgroundColor: "transparent"
   },
 
   container: {
@@ -50,12 +50,67 @@ export const homeStyles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 48
+    minHeight: 48,
+    marginBottom: 30
   },
   
   gpsText: {
     color: colors.background,
     fontSize: 16,
     fontWeight: "600"
-  }
+  },
+
+  card: {
+  backgroundColor: colors.vidro,
+  borderRadius: 17,
+  padding: spacing.md,
+  marginHorizontal: spacing.md,
+  marginVertical: spacing.sm,
+  alignItems: "center",
+ },
+
+ cityName: {
+  ...typography.title,
+  color: colors.text,
+ },
+
+ weatherIcon: {
+  width: 60,
+  height: 60,
+ },
+
+ temperature: {
+  fontSize: 1,
+  fontWeight: "bold",
+  color: colors.primary,
+  marginBottom: spacing.sm
+ },
+
+ description: {
+  ...typography.subtitle,
+  color: colors.text,
+  textTransform: 'capitalize',
+ },
+
+ detailsContainer: {
+  flexDirection: "row",
+  marginTop: spacing.md,
+  gap: spacing.lg
+ },
+
+ detailsItems: {
+  alignItems: "center"
+ },
+
+ detailsLabel: {
+  ...typography.caption,
+  color: colors.shadow,
+  marginBottom: spacing.xs
+ },
+
+ detailsValue: {
+  ...typography.caption,
+  color: colors.text
+ }
+
 })
