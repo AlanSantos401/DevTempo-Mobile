@@ -45,7 +45,7 @@ export const homeStyles = StyleSheet.create({
   gpsButton: {
     backgroundColor: colors.primary,
     marginHorizontal: spacing.md,
-    marginTop: spacing.md,
+    marginTop: spacing.sm,
     paddingVertical: spacing.sm + 4,
     borderRadius: 8,
     alignItems: "center",
